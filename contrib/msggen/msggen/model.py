@@ -97,7 +97,7 @@ class Service:
     """Top level class that wraps all the RPC methods.
     """
     def __init__(self, name: str, methods=None):
-        self.name = name
+        self.name = name.replpace("-", "")
         self.methods = [] if methods is None else methods
 
         # If we require linking with some external files we'll add

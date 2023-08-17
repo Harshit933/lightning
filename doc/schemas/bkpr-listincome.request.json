@@ -1,0 +1,22 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "added": "v23.08",
+    "required": [],
+    "additionalProperties": false,
+    "properties": {
+        "start_time" : {
+            "type" : "u32",
+            "description": "Filters the events after the time"
+        },
+        "debit_time" : {
+            "type" : "u32",
+            "description": "Filters the events upto the timestamp"
+        },
+        "consolidate_fee" : {
+            "type" : "boolean",
+            "description": "A brief description about consolidate_fee"
+        }
+    }
+  }
+  

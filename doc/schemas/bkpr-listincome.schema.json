@@ -5,6 +5,7 @@
   "required": [
     "income_events"
   ],
+  "added": "pre-v0.10.1",
   "properties": {
     "income_events": {
       "type": "array",

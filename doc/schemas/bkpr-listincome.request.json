@@ -4,6 +4,7 @@
     "added": "v23.08",
     "required": [],
     "additionalProperties": false,
+    "added": "pre-v0.10.1",
     "properties": {
         "start_time" : {
             "type" : "u32",
@@ -19,4 +20,3 @@
         }
     }
   }
-  

@@ -104,7 +104,7 @@ def gen_enum(e):
             match c {{
     """)
     for i, v in enumerate(e.variants):
-        norm = v.normalized()
+        norm = v.normalized().replace("-", "")
         # decl += f"    #[serde(rename = \"{v}\")]\n"
         decl += f"    {i} => Ok({e.typename}::{norm}),\n"
     decl += dedent(f"""\

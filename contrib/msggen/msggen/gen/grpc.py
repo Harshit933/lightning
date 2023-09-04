@@ -150,11 +150,13 @@ class GrpcGenerator(IGenerator):
 
         for method in service.methods:
             mname = method_name_overrides.get(method.name, method.name)
+            mname = mname.replace("-", "")
+            method.request.typename = method.request.typename.replace("-", "")
+            method.response.typename = method.response.typename.replace("-", "")
             self.write(
                 f"	rpc {mname}({method.request.typename}) returns ({method.response.typename}) {{}}\n",
                 cleanup=False,
             )
-
         self.write(f"""}}
         """)
 
@@ -173,7 +175,7 @@ class GrpcGenerator(IGenerator):
     def generate_message(self, message: CompositeField):
         if message.omit():
             return
-
+        message.typename = message.typename.replace("-", "")
         self.write(f"""
         message {message.typename} {{
         """)
@@ -191,15 +193,19 @@ class GrpcGenerator(IGenerator):
 
             if isinstance(f, ArrayField):
                 typename = f.override(typemap.get(f.itemtype.typename, f.itemtype.typename))
+                typename = typename.replace("-", "")
                 self.write(f"\trepeated {typename} {f.normalized()} = {i};\n", False)
             elif isinstance(f, PrimitiveField):
                 typename = f.override(typemap.get(f.typename, f.typename))
+                typename = typename.replace("-", "")
                 self.write(f"\t{opt}{typename} {f.normalized()} = {i};\n", False)
             elif isinstance(f, EnumField):
                 typename = f.override(f.typename)
+                typename = typename.replace("-", "")
                 self.write(f"\t{opt}{typename} {f.normalized()} = {i};\n", False)
             elif isinstance(f, CompositeField):
                 typename = f.override(f.typename)
+                typename = typename.replace("-", "")
                 self.write(f"\t{opt}{typename} {f.normalized()} = {i};\n", False)
 
         self.write(f"""}}
@@ -559,6 +565,8 @@ class GrpcServerGenerator(GrpcConverterGenerator):
             mname = method_name_overrides.get(method.name, method.name)
             # Tonic will convert to snake-case, so we have to do it here too
             name = re.sub(r'(?<!^)(?=[A-Z])', '_', mname).lower()
+            name = name.replace("-", "")
+            method.name = method.name.replace("-", "")
             self.write(f"""\
             async fn {name}(
                 &self,
